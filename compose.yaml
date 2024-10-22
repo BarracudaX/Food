@@ -1,6 +1,9 @@
 services:
+#  dev services
   mysql:
     image: 'mysql:latest'
+    profiles:
+      - dev
     environment:
       - 'MYSQL_DATABASE=mydatabase'
       - 'MYSQL_PASSWORD=secret'

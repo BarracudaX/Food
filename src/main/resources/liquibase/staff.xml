@@ -1,0 +1,24 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro
+        http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet id="1" author="Kalaitsidis Arslan">
+        <createTable tableName="staff">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" foreignKeyName="FK_STAFF_USERS" references="users(id)" />
+            </column>
+            <column name="restaurant_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_STAFF_RESTAURANT" references="restaurants(id)" />
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
