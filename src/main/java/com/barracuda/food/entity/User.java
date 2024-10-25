@@ -16,17 +16,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_sequence")
     private Long id;
 
-    @NotEmpty
     private String name;
 
-    @NotNull
-    @Email
     private String email;
 
-    @NotEmpty
     private String password;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -48,4 +43,23 @@ public class User {
         this.role = role;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 }
