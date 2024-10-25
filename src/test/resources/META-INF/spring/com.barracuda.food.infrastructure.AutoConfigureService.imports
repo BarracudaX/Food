@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration
+org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration
