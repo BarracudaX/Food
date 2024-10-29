@@ -12,11 +12,12 @@ public record UserRegistrationForm(
         @NotBlank(message = "{UserRegistrationForm.name.NotBlank.message}")
         String name,
 
+        @NotBlank(message = "{UserRegistrationForm.email.Email.message}")
         @Email(message = "{UserRegistrationForm.email.Email.message}")
         String email,
 
         @NotBlank(message = "{UserRegistrationForm.password.NotBlank.message}")
-        @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",message = "{UserRegistrationForm.password.Pattern.message}")
+        @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*]{8,}$",message = "{UserRegistrationForm.password.Pattern.message}")
         String password,
 
         String repeatedPassword

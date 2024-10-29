@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{index::header(#{page.title.register})}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Register</title>
+</head>
+<body>
+<nav th:replace="~{index::navbar}">
+
+</nav>
+
+<div class="container mt-3">
+  <form method="post" th:action="@{/user}" class="w-50 m-auto">
+    <div th:replace="~{index::errors}">
+
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label" th:text="#{page.label.name}">Name:</label>
+      <input type="text" class="form-control" id="name" name="name"/>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label" th:text="#{page.label.email}">Email:</label>
+      <input type="email" class="form-control" id="email" name="email"/>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label" th:text="#{page.label.password}">Password:</label>
+      <input type="password" class="form-control" id="password" name="password" autocomplete="off"/>
+      <div id="passwordHelp" class="form-text" th:text="#{UserRegistrationForm.password.Pattern.message}">Password needs to be at least 8 characters long; container at least one
+        digit; and contain at least one letter.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="repeatedPassword" class="form-label" th:text="#{page.label.repeatedPassword}">Password(repeat):</label>
+      <input type="password" class="form-control" id="repeatedPassword" name="repeatedPassword" autocomplete="off"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100" th:text="#{page.button.register}">Register</button>
+  </form>
+</div>
+
+<footer th:replace="~{index::footer}"></footer>
+</body>
+</html>

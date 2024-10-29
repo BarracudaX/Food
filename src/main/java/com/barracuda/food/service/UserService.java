@@ -6,10 +6,12 @@ import com.barracuda.food.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 @Service
 @Validated
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -20,7 +22,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    User createUser(@Valid UserRegistrationForm registrationForm){
+    public User createUser(@Valid UserRegistrationForm registrationForm){
         var user = new User(registrationForm.name(),registrationForm.email(),passwordEncoder.encode(registrationForm.password()));
 
         return userRepository.save(user);

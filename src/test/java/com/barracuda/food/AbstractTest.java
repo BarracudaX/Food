@@ -42,6 +42,6 @@ public class AbstractTest {
     }
 
     public static String[] invalidPasswords(){
-        return new String[]{ "7Charsl","nodigitspass","12345678" };
+        return new String[]{ "7Charsl","nodigitspass","12345678","" };
     }
 }

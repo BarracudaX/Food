@@ -59,6 +59,18 @@ public class UserServiceTest extends AbstractServiceUnitTest {
     }
 
     @ParameterizedTest
+    @MethodSource("emptyStrings")
+    void shouldThrowConstraintValidationExceptionWhenRegisteringWithEmptyEmail(String emptyString) {
+        var invalidRegistrationForm = new UserRegistrationForm.Builder(registrationForm).email(emptyString).build();
+
+        assertThatThrownBy(() -> userService.createUser(invalidRegistrationForm))
+                .isInstanceOf(ConstraintViolationException.class)
+                .hasMessageContaining(messageSource.getMessage("UserRegistrationForm.email.Email.message",new Object[]{},LocaleContextHolder.getLocale()));
+
+        verifyNoInteractions(userRepositoryMock,passwordEncoder);
+    }
+
+    @ParameterizedTest
     @MethodSource("invalidPasswords")
     void shouldThrowConstraintValidationExceptionWhenRegisteringWithInvalidPassword(String invalidPassword) {
         var invalidRegistrationForm = new UserRegistrationForm.Builder(registrationForm).password(invalidPassword).repeatedPassword(invalidPassword).build();
