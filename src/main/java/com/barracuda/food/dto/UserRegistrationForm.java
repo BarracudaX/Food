@@ -7,17 +7,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
-@EqualPasswords(message = "{UserRegistrationForm.EqualPasswords.message}")
+@EqualPasswords(message = "{User.EqualPasswords.message}")
 public record UserRegistrationForm(
-        @NotBlank(message = "{UserRegistrationForm.name.NotBlank.message}")
+        @NotBlank(message = "{User.name.NotBlank.message}")
         String name,
 
-        @NotBlank(message = "{UserRegistrationForm.email.Email.message}")
-        @Email(message = "{UserRegistrationForm.email.Email.message}")
+        @NotBlank(message = "{User.email.Email.message}")
+        @Email(message = "{User.email.Email.message}")
         String email,
 
-        @NotBlank(message = "{UserRegistrationForm.password.NotBlank.message}")
-        @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*]{8,}$",message = "{UserRegistrationForm.password.Pattern.message}")
+        @NotBlank(message = "{User.password.NotBlank.message}")
+        @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*]{8,}$",message = "{User.password.Pattern.message}")
         String password,
 
         String repeatedPassword

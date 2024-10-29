@@ -18,4 +18,9 @@ public class ViewController {
 
     @GetMapping({"/register","/user"})
     String registerPage(){ return "register"; }
+
+    @GetMapping("/profile")
+    String profilePage(){
+        return "profile";
+    }
 }

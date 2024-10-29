@@ -41,7 +41,7 @@ public class FAuthenticationProvider implements AuthenticationProvider {
 
         var authorities = List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole().name()));
 
-        return new UsernamePasswordAuthenticationToken(email,"",authorities);
+        return new FAuthenticationToken(user.getId(), "", authorities,user);
     }
 
     @Override

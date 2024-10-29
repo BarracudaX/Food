@@ -41,7 +41,7 @@ public class UserServiceTest extends AbstractServiceUnitTest {
 
         assertThatThrownBy(() -> userService.createUser(invalidRegistrationForm))
                 .isInstanceOf(ConstraintViolationException.class)
-                .hasMessageContaining(messageSource.getMessage("UserRegistrationForm.name.NotBlank.message", new Object[]{}, LocaleContextHolder.getLocale()));
+                .hasMessageContaining(messageSource.getMessage("User.name.NotBlank.message", new Object[]{}, LocaleContextHolder.getLocale()));
 
         verifyNoInteractions(userRepositoryMock,passwordEncoder);
     }
@@ -53,7 +53,7 @@ public class UserServiceTest extends AbstractServiceUnitTest {
 
         assertThatThrownBy(() -> userService.createUser(invalidRegistrationForm))
                 .isInstanceOf(ConstraintViolationException.class)
-                .hasMessageContaining(messageSource.getMessage("UserRegistrationForm.email.Email.message",new Object[]{},LocaleContextHolder.getLocale()));
+                .hasMessageContaining(messageSource.getMessage("User.email.Email.message",new Object[]{},LocaleContextHolder.getLocale()));
 
         verifyNoInteractions(userRepositoryMock,passwordEncoder);
     }
@@ -65,7 +65,7 @@ public class UserServiceTest extends AbstractServiceUnitTest {
 
         assertThatThrownBy(() -> userService.createUser(invalidRegistrationForm))
                 .isInstanceOf(ConstraintViolationException.class)
-                .hasMessageContaining(messageSource.getMessage("UserRegistrationForm.email.Email.message",new Object[]{},LocaleContextHolder.getLocale()));
+                .hasMessageContaining(messageSource.getMessage("User.email.Email.message", new Object[]{}, LocaleContextHolder.getLocale()));
 
         verifyNoInteractions(userRepositoryMock,passwordEncoder);
     }
@@ -77,7 +77,7 @@ public class UserServiceTest extends AbstractServiceUnitTest {
 
         assertThatThrownBy(() -> userService.createUser(invalidRegistrationForm))
                 .isInstanceOf(ConstraintViolationException.class)
-                .hasMessageContaining(messageSource.getMessage("UserRegistrationForm.password.Pattern.message",new Object[]{},LocaleContextHolder.getLocale()));
+                .hasMessageContaining(messageSource.getMessage("User.password.Pattern.message",new Object[]{},LocaleContextHolder.getLocale()));
 
         verifyNoInteractions(userRepositoryMock,passwordEncoder);
     }
@@ -89,7 +89,7 @@ public class UserServiceTest extends AbstractServiceUnitTest {
 
         assertThatThrownBy(() -> userService.createUser(invalidRegistrationForm))
                 .isInstanceOf(ConstraintViolationException.class)
-                .hasMessageContaining(messageSource.getMessage("UserRegistrationForm.password.NotBlank.message",new Object[]{},LocaleContextHolder.getLocale()));
+                .hasMessageContaining(messageSource.getMessage("User.password.NotBlank.message",new Object[]{},LocaleContextHolder.getLocale()));
 
         verifyNoInteractions(userRepositoryMock,passwordEncoder);
     }
@@ -100,7 +100,7 @@ public class UserServiceTest extends AbstractServiceUnitTest {
 
         assertThatThrownBy(() -> userService.createUser(invalidRegistrationForm))
                 .isInstanceOf(ConstraintViolationException.class)
-                .hasMessageContaining(messageSource.getMessage("UserRegistrationForm.EqualPasswords.message",new Object[]{},LocaleContextHolder.getLocale()));
+                .hasMessageContaining(messageSource.getMessage("User.EqualPasswords.message",new Object[]{},LocaleContextHolder.getLocale()));
 
         verifyNoInteractions(userRepositoryMock,passwordEncoder);
     }

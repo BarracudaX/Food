@@ -20,7 +20,7 @@
                     <a class="nav-link" href="#" th:href="@{/}">Home</a>
                 </li>
                 <li sec:authorize="isFullyAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    <a class="nav-link" href="#" th:href="@{/profile}">Profile</a>
                 </li>
                 <li sec:authorize="isAnonymous()" class="nav-item">
                     <a class="nav-link" href="#" th:href="@{/login}">Sign In</a>
@@ -41,7 +41,17 @@
 </nav>
 
 <div th:fragment="errors">
-    <div th:each="error : ${errors}" class="alert alert-danger mt-1 mb-1" th:text="${error}" role="alert">Error</div>
+    <div th:each="error : ${errors}" class="alert alert-danger alert-dismissible fade show mt-1 mb-1">
+        <div th:text="${error}">Error</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<div th:fragment="success">
+    <div th:each="successMsg : ${success}" class="alert alert-success alert-dismissible fade show mt-1 mb-1" >
+        <div th:text="${successMsg}">Success</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 </div>
 
 <footer th:fragment="footer">
