@@ -30,9 +30,9 @@ public class UserService {
 
     public User changeUserName(@Valid UpdateNameForm updateForm){
         return userRepository
-                .findById(updateForm.id())
+                .findById(updateForm.getId())
                 .map(user -> {
-                    user.setName(updateForm.name());
+                    user.setName(updateForm.getName());
                     return user;
                 }).orElseThrow(() ->  new EmptyResultDataAccessException(1) );
     }

@@ -1,10 +1,19 @@
 package com.barracuda.food.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record UpdateNameForm(
-        @NotBlank(message = "{User.name.NotBlank.message}")
-        String name,
+import java.util.Objects;
 
-        Long id
-) { }
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public final class UpdateNameForm {
+
+    @NotBlank(message = "{User.name.NotBlank.message}")
+    private String name;
+
+    private Long id;
+}

@@ -7,6 +7,7 @@ import com.barracuda.food.entity.User;
 import com.barracuda.food.service.UserService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -38,6 +40,11 @@ public class UserController {
         this.messageSource = messageSource;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder){
+        webDataBinder.setAllowedFields("name","email","password","repeatedPassword");
+    }
+
     @PostMapping
     ModelAndView createUser(@Validated @ModelAttribute("form") UserRegistrationForm form, BindingResult bindingResult) {
 
@@ -51,19 +58,20 @@ public class UserController {
     }
 
     @PostMapping("/name")
-    ModelAndView updateName(@RequestParam("name") String name, Principal principal){
-        var authentication = (FAuthenticationToken) principal;
-        var successMsg = new ArrayList<String>();
-        var errors = new ArrayList<String>();
-        try{
-            var updateForm = new UpdateNameForm(name,authentication.getUser().getId());
-            updateSecurityContext(userService.changeUserName(updateForm),authentication);
-            successMsg.add(messageSource.getMessage("success.name.update.message",new Object[0], LocaleContextHolder.getLocale()));
-        }catch (ConstraintViolationException ex){
-            errors.addAll(ex.getConstraintViolations().stream().map(ConstraintViolation::getMessage).toList());
+    ModelAndView updateName(@ModelAttribute("nameForm") @Valid UpdateNameForm form,BindingResult bindingResult, Principal principal){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("profile");
         }
 
-        return new ModelAndView("profile",Map.of("errors",errors,"success",successMsg));
+        var authentication = (FAuthenticationToken) principal;
+        var successMsg = new ArrayList<String>();
+        form.setId(authentication.getUser().getId());
+
+        updateSecurityContext(userService.changeUserName(form),authentication);
+
+        successMsg.add(messageSource.getMessage("success.name.update.message",new Object[0], LocaleContextHolder.getLocale()));
+
+        return new ModelAndView("profile",Map.of("success",successMsg));
     }
 
     private void updateSecurityContext(User user,FAuthenticationToken authentication){

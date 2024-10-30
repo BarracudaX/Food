@@ -14,6 +14,10 @@
 
 <div class="container mt-3">
   <form method="post" th:action="@{/login}" class="w-50 m-auto">
+    <div th:if="${param.error != null}" class="alert alert-danger alert-dismissible fade show mt-1 mb-1">
+      <div th:text="#{login.failure.message}">Login Failure Message</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="mb-3">
       <label for="email" class="form-label" th:text="#{page.label.email}">Email:</label>
       <input type="email" class="form-control" id="email" name="username">
