@@ -9,10 +9,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 @Service
-@Validated
 @Transactional
 public class UserService {
 
@@ -24,8 +22,8 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(@Valid UserRegistrationForm registrationForm){
-        var user = new User(registrationForm.name(),registrationForm.email(),passwordEncoder.encode(registrationForm.password()));
+    public User createUser(UserRegistrationForm registrationForm){
+        var user = new User(registrationForm.getName(),registrationForm.getEmail(),passwordEncoder.encode(registrationForm.getPassword()));
 
         return userRepository.save(user);
     }

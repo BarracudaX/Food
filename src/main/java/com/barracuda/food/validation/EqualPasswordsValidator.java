@@ -28,6 +28,6 @@ public class EqualPasswordsValidator implements ConstraintValidator<EqualPasswor
     public boolean isValid(UserRegistrationForm value, ConstraintValidatorContext context) {
         if(value == null) return true;
 
-        return (value.password() == null && value.repeatedPassword() == null) || value.password().equals(value.repeatedPassword());
+        return (value.getPassword() == null && value.getRepeatedPassword() == null) || value.getPassword().equals(value.getRepeatedPassword());
     }
 }

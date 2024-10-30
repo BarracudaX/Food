@@ -1,7 +1,10 @@
 package com.barracuda.food.controller;
 
+import com.barracuda.food.dto.UserRegistrationForm;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class ViewController {
@@ -17,7 +20,10 @@ public class ViewController {
     }
 
     @GetMapping({"/register","/user"})
-    String registerPage(){ return "register"; }
+    String registerPage(Model model){
+        model.addAttribute("form",UserRegistrationForm.builder().build());
+        return "register";
+    }
 
     @GetMapping("/profile")
     String profilePage(){

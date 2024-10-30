@@ -13,23 +13,35 @@
 </nav>
 
 <div class="container mt-3">
-  <form method="post" th:action="@{/user}" class="w-50 m-auto">
-    <div th:replace="~{index::errors}">
-
+  <form method="post" th:action="@{/user}" class="w-50 m-auto " th:object="${form}">
+    <div th:if="${#fields.hasErrors('global')}" >
+      <div th:each="error : ${#fields.errors('global')}" class="alert alert-danger alert-dismissible fade show mt-1 mb-1">
+        <div th:text="${error}">Error</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
     </div>
     <div class="mb-3">
-      <label for="name" class="form-label" th:text="#{page.label.name}">Name:</label>
-      <input type="text" class="form-control" id="name" name="name"/>
+      <label for="name" class="form-label" th:text="#{page.label.name}" >Name:</label>
+      <input type="text" class="form-control"  th:field="*{name}" id="name" aria-describedby="nameInvalidFeedback" th:errorclass="is-invalid" />
+      <div class="invalid-feedback" id="nameInvalidFeedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+
+      </div>
     </div>
 
     <div class="mb-3">
       <label for="email" class="form-label" th:text="#{page.label.email}">Email:</label>
-      <input type="email" class="form-control" id="email" name="email"/>
+      <input type="email" class="form-control" id="email" th:field="*{email}" aria-describedby="emailInvalidFeedback" th:errorclass="is-invalid" />
+      <div class="invalid-feedback" id="emailInvalidFeedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+
+      </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label" th:text="#{page.label.password}">Password:</label>
-      <input type="password" class="form-control" id="password" name="password" autocomplete="off"/>
-      <div id="passwordHelp" class="form-text" th:text="#{UserRegistrationForm.password.Pattern.message}">Password needs to be at least 8 characters long; container at least one
+      <input type="password" class="form-control" id="password" th:field="*{password}" aria-describedby="passwordInvalidFeedback" th:errorclass="is-invalid"  />
+      <div class="invalid-feedback" id="passwordInvalidFeedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+
+      </div>
+      <div id="passwordHelp" class="form-text" th:text="#{User.password.Pattern.message}">Password needs to be at least 8 characters long; container at least one
         digit; and contain at least one letter.
       </div>
     </div>

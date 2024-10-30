@@ -11,7 +11,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -36,13 +39,13 @@ public class UserController {
     }
 
     @PostMapping
-    ModelAndView createUser(@ModelAttribute UserRegistrationForm registrationForm){
-        try{
-            userService.createUser(registrationForm);
-        }catch (ConstraintViolationException ex){
-            var errors = ex.getConstraintViolations().stream().map(ConstraintViolation::getMessage).toList();
-            return new ModelAndView("register", Map.of("errors",errors));
+    ModelAndView createUser(@Validated @ModelAttribute("form") UserRegistrationForm form, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("register");
         }
+
+        userService.createUser(form);
 
         return new ModelAndView("redirect:login");
     }
