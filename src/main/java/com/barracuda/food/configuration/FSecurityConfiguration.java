@@ -40,10 +40,12 @@ public class FSecurityConfiguration {
                 })
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers(HttpMethod.GET,"/","/login","/register","/user").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/","/login","/register","/user","/error").permitAll()
                             .requestMatchers(HttpMethod.POST,"/user").permitAll()
                             .requestMatchers(HttpMethod.GET,"/profile").hasRole(Role.USER.name())
                             .requestMatchers(HttpMethod.POST,"/user/name").hasRole(Role.USER.name())
+                            .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
+                            .requestMatchers(HttpMethod.GET,"/resources/**").permitAll()
                             .anyRequest().denyAll();
                 })
                 .build();

@@ -45,17 +45,4 @@
         </insert>
     </changeSet>
 
-    <changeSet id="4" author="Kalaitsidis Arslan" context="dev">
-        <insert tableName="users">
-            <column name="id">1</column>
-            <column name="password">$2a$10$6smN1fda0NAu4zvb6JuWteQq4NyOYY.O/XFDn2EHofH9RQ423.7ju</column>
-            <column name="name">Test User</column>
-            <column name="email">test@email.com</column>
-            <column name="role">USER</column>
-        </insert>
-        <update tableName="user_sequence">
-            <column name="next_val">2</column>
-        </update>
-    </changeSet>
-
 </databaseChangeLog>

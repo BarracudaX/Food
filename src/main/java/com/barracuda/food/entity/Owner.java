@@ -17,7 +17,7 @@ public class Owner extends User{
         super();
     }
 
-    Owner(String name, String email,String password){
+    public Owner(String name, String email,String password){
         super(name,email,password,Role.OWNER);
     }
 }

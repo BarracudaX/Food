@@ -3,6 +3,8 @@ package com.barracuda.food.controller;
 import com.barracuda.food.auth.FAuthenticationToken;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,4 +37,5 @@ public class ViewController {
         model.addAttribute("nameForm",new UpdateNameForm(authentication.getUser().getName(),null));
         return "profile";
     }
+
 }

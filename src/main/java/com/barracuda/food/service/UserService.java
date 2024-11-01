@@ -6,6 +6,8 @@ import com.barracuda.food.entity.User;
 import com.barracuda.food.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,10 @@ public class UserService {
         var user = new User(registrationForm.getName(),registrationForm.getEmail(),passwordEncoder.encode(registrationForm.getPassword()));
 
         return userRepository.save(user);
+    }
+
+    public Page<User> users(Pageable pageable){
+        return userRepository.findAll(pageable);
     }
 
     public User changeUserName(@Valid UpdateNameForm updateForm){

@@ -10,4 +10,12 @@
         http://www.liquibase.org/xml/ns/pro
         http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
+    <changeSet id="1" author="Arslan Kalaitsidis">
+        <createTable tableName="admins">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" foreignKeyName="FK_ADMINS_USERS" references="users(id)" />
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

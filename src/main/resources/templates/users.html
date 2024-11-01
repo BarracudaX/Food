@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <div th:replace="~{index::header(#{page.title.users})}" th:remove="tag">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/0048e4e17f.js" crossorigin="anonymous"></script>
+        <title th:text="${title}">Title</title>
+    </div>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+
+<nav th:replace="~{index::navbar}">
+
+</nav>
+
+<div class="offcanvas offcanvas-bottom h-75" id="createManagerForm">
+    <div class="offcanvas-header justify-content-center">
+        <h3 class="offcanvas-title">Create Owner</h3>
+    </div>
+    <div class="offcanvas-body container">
+        <div id="errors">
+
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label" th:text="#{page.label.name}">Name:</label>
+            <input type="text" class="form-control" id="ownerName" aria-describedby="nameInvalidFeedback"/>
+            <div class="invalid-feedback" id="nameInvalidFeedback">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label" th:text="#{page.label.email}">Email:</label>
+            <input type="email" class="form-control" id="ownerEmail" aria-describedby="emailInvalidFeedback"/>
+            <div class="invalid-feedback" id="emailInvalidFeedback">
+
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label" th:text="#{page.label.password}">Password:</label>
+            <input type="password" class="form-control" id="password" aria-describedby="passwordInvalidFeedback"
+                   autocomplete="new-password"/>
+            <div class="invalid-feedback" id="passwordInvalidFeedback">
+
+            </div>
+            <div id="passwordHelp" class="form-text" th:text="#{User.password.Pattern.message}">Password needs to be at
+                least 8 characters long; container at least one
+                digit; and contain at least one letter.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="repeatedPassword" class="form-label"
+                   th:text="#{page.label.repeatedPassword}">Password(repeat):</label>
+            <input type="password" class="form-control" id="repeatedPassword" autocomplete="new-password"/>
+        </div>
+
+        <button class="btn btn-success w-100" th:text="#{page.button.create.owner}" onclick="createOwner()">Create Owner
+        </button>
+        <button type="reset" class="btn btn-danger w-100 mt-2" th:text="#{page.button.reset}" onclick="clearFormInputs()">Reset</button>
+
+    </div>
+</div>
+
+<div class="container-fluid mt-3  vh-100 d-flex flex-column">
+    <div class="d-flex mb-3 mt-3 w-100">
+        <button class="btn btn-success" data-bs-toggle="offcanvas" data-bs-target="#createManagerForm"
+                aria-controls="createManagerForm"><i class="fa-solid fa-user-plus"></i></button>
+    </div>
+    <div th:each="user : ${page.content}" class="row w-100">
+        <div class="row mb-3">
+            <div class="row gx-2">
+                <label class="col-1 form-label m-0 align-content-center text-end" for="name">Name:</label>
+                <div class="col-3">
+                    <input class="form-control" value="Test" id="name" readonly th:value="${user.content.name}"/>
+                </div>
+                <label class="col-1 align-content-center text-end" for="email">Email:</label>
+                <div class="col-3">
+                    <input class="form-control" value="test@email.com" id="email" th:value="${user.content.email}"
+                           readonly>
+                </div>
+                <label class="col-1 align-content-center text-end" for="role">Role:</label>
+                <div class="col-3">
+                    <input class="form-control" value="USER" id="role" th:value="${user.content.role}" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="row w-100 mt-auto mb-5">
+        <ul class="pagination justify-content-center gap-3">
+            <th:block th:if="${page.previousLink.isPresent()}">
+                <li class="page-item"><a class="page-link" href="#"
+                                         th:href="${page.previousLink.get().href}">Previous</a></li>
+            </th:block>
+            <th:block th:if="${page.previousLink.isEmpty()}">
+                <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
+            </th:block>
+            <th:block th:if="${page.nextLink.isPresent()}">
+                <li class="page-item"><a class="page-link" href="#" th:href="${page.nextLink.get().href}">Next</a></li>
+            </th:block>
+            <th:block th:if="${page.nextLink.isEmpty()}">
+                <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+
+<script src="../static/admin.js" th:src="@{/resources/admin.js}"></script>
+
+<footer th:replace="~{index::footer}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+</footer>
+</body>
+</html>
