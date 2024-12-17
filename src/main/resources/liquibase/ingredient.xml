@@ -11,34 +11,50 @@
         http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
     <changeSet id="1" author="Kalaitsidis Arslan">
-        <createTable tableName="users">
+        <createTable tableName="ingredients">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" />
             </column>
             <column name="name" type="VARCHAR(244)">
                 <constraints nullable="false" />
             </column>
-
-            <column name="email" type="VARCHAR(244)">
-                <constraints nullable="false" />
+            <column name="branch_id" type="BIGINT">
+                <constraints foreignKeyName="FK_INGREDIENTS_BRANCHES" references="branches(id)" />
             </column>
-
-            <column name="password" type="VARCHAR(244)">
+            <column name="type" type="VARCHAR(244)">
                 <constraints nullable="false" />
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="Kalaitsidis Arslan">
-        <createTable tableName="user_sequence">
+    <changeSet id="2" author="Kalaitisids Arslan">
+        <createTable tableName="ingredient_sequence">
             <column name="next_val" type="BIGINT" />
         </createTable>
-    </changeSet>
-
-    <changeSet id="3" author="Kalaitsidis Arslan">
-        <insert tableName="user_sequence">
+        <insert tableName="ingredient_sequence">
             <column name="next_val">1</column>
         </insert>
     </changeSet>
+    
+    <changeSet id="3" author="Kalaitsidis Arslan">
+        <createTable tableName="ingredient_options">
+            <column name="ingredient_id" type="BIGINT">
+                <constraints primaryKey="true" foreignKeyName="FK_INGREDIENT_OPTIONS_INGREDIENTS" references="ingredients(id)" />
+            </column>
+            <column name="name" type="VARCHAR(244)">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="cost" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="max_quantity" type="INT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
 
 </databaseChangeLog>

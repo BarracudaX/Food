@@ -18,15 +18,4 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="Kalaitsidis Arslan">
-        <createTable tableName="restaurant_ownership">
-            <column name="owner_id" type="BIGINT">
-                <constraints primaryKey="true" foreignKeyName="FK_RESTAURANT_OWNERSHIP_OWNERS" references="restaurant_owners(id)" />
-            </column>
-            <column name="restaurant_id" type="BIGINT">
-                <constraints primaryKey="true" foreignKeyName="FK_RESTAURANT_OWNERSHIP_RESTAURANTS" references="restaurants(id)" />
-            </column>
-        </createTable>
-    </changeSet>
-
 </databaseChangeLog>

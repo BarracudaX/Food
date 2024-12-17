@@ -1,0 +1,31 @@
+Application's main functionality
+1. Users see information about restaurants.
+2. Users can make orders.
+3. Users can rate restaurants.
+4. Restaurant personal can see and accept orders.
+5. Managers can see customer's reviews and answer to them.
+6. Managers can modify the menu.
+7. Restaurant owners can see statistics.
+
+User Roles: User/Customer,Staff,Manager,Owner,Admin.
+Roles are hierarchically ordered: staff is also user and so on.
+
+Functionalities available to all user/customer
+1. Login and Logout.
+2. Profile management.
+3. Review writing.
+4. Ordering.
+5. Restaurant exploration.
+
+Functionalities available only to staff
+1.Managing orders.
+
+Functionalities available only to manager
+1.Modification of menus.
+2.Commenting customer's reviews.
+
+Functionalities available only to owner
+1.Reviewing restaurant's statistics.
+
+Functionalities available only to admin
+1. Creation of owner accounts.

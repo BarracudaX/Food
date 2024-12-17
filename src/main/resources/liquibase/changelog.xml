@@ -9,12 +9,18 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
         http://www.liquibase.org/xml/ns/pro
         http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
-    
-    <include file="/liquibase/restaurant.xml" />
+
+
     <include file="/liquibase/user.xml" />
-    <include file="/liquibase/admin.xml" />
     <include file="/liquibase/owner.xml" />
-    <include file="/liquibase/manager.xml" />
+    <include file="/liquibase/admin.xml" />
+
+    <include file="/liquibase/restaurant.xml" />
+    <include file="/liquibase/branch.xml" />
+    <include file="/liquibase/menu.xml" />
+    <include file="/liquibase/ingredient.xml" />
+
     <include file="/liquibase/staff.xml" />
-    
+    <include file="/liquibase/manager.xml" />
+
 </databaseChangeLog>

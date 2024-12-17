@@ -13,23 +13,12 @@
     <changeSet id="1" author="Kalaitsidis Arslan">
         <createTable tableName="managers">
             <column name="id" type="BIGINT">
-                <constraints primaryKey="true" foreignKeyName="FK_MANAGERS_USERS" references="users(id)" />
-            </column>
-            <column name="restaurant_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="FK_STAFF_RESTAURANT" references="restaurants(id)" />
+                <constraints primaryKey="true" foreignKeyName="FK_MANAGERS_STAFF" references="staff(id)" />
             </column>
         </createTable>
     </changeSet>
-
-    <changeSet id="2" author="Kalaitsidis Arslan">
-        <dropForeignKeyConstraint baseTableName="managers" constraintName="FK_STAFF_RESTAURANT" />
-        <addForeignKeyConstraint baseTableName="managers" baseColumnNames="restaurant_id"
-                                 constraintName="FK_MANAGER_RESTAURANT"
-                                 referencedTableName="restaurants"
-                                 referencedColumnNames="id"/>
-    </changeSet>
     
-    <changeSet id="3" author="Kalaitsidis Arslan">
+    <changeSet id="2" author="Kalaitsidis Arslan">
         <createTable tableName="restaurant_sequence">
             <column name="next_val" type="BIGINT" />
         </createTable>

@@ -15,8 +15,8 @@
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" foreignKeyName="FK_STAFF_USERS" references="users(id)" />
             </column>
-            <column name="restaurant_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="FK_STAFF_RESTAURANT" references="restaurants(id)" />
+            <column name="branch_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_STAFF_BRANCHES" references="branches(id)" />
             </column>
         </createTable>
     </changeSet>

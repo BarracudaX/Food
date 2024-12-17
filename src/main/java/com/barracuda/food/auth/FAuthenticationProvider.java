@@ -1,19 +1,22 @@
 package com.barracuda.food.auth;
 
+import com.barracuda.food.entity.Admin;
+import com.barracuda.food.entity.Manager;
+import com.barracuda.food.entity.Owner;
+import com.barracuda.food.entity.Staff;
+import com.barracuda.food.entity.enums.Role;
 import com.barracuda.food.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,9 +42,15 @@ public class FAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Invalid Credentials.");
         }
 
-        var authorities = List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole().name()));
+        var role = switch (user){
+            case Owner ignored -> "ROLE_" + Role.OWNER.name();
+            case Admin ignored -> "ROLE_" + Role.ADMIN.name();
+            case Manager ignored -> "ROLE_" + Role.MANAGER.name();
+            case Staff ignored -> "ROLE_" + Role.STAFF.name();
+            default -> "ROLE_" + Role.USER.name();
+        };
 
-        return new FAuthenticationToken(user.getId(), "", authorities,user);
+        return new FAuthenticationToken(user.getId(), "", List.of(new SimpleGrantedAuthority(role)),user);
     }
 
     @Override
