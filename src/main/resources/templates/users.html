@@ -86,7 +86,7 @@
                 </div>
                 <label class="col-1 align-content-center text-end" for="role">Role:</label>
                 <div class="col-3">
-                    <input class="form-control" value="USER" id="role" th:value="${user.content.role}" readonly>
+                    <input class="form-control" value="USER" id="role" th:value="${T(com.barracuda.food.Utility).userRole(user.content)}" readonly>
                 </div>
             </div>
         </div>
