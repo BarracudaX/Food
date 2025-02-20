@@ -7,10 +7,10 @@ import com.barracuda.food.dto.OwnerCreationForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.AdminService;
 import com.barracuda.food.service.UserService;
+import com.barracuda.food.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +19,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

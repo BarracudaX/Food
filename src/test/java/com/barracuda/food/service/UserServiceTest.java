@@ -15,9 +15,9 @@ public class UserServiceTest extends AbstractServiceUnitTest {
 
     private final UserRegistrationForm registrationForm = UserRegistrationForm.builder().name("SOME_NAME").email("SOME@EMAIL.COM").password("SomePass123").repeatedPassword("SomePass123").build();
     private final User user = new User(registrationForm.getName(),registrationForm.getEmail(),"ENCODED_PASSWORD");
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserServiceTest(UserService userService) {
+    public UserServiceTest(UserServiceImpl userService) {
         this.userService = userService;
     }
 

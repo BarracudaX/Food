@@ -2,15 +2,13 @@ package com.barracuda.food.controller;
 
 import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.service.UserService;
+import com.barracuda.food.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -30,7 +28,6 @@ public class UserControllerTest extends AbstractControllerTest{
             .password("SomePass123!")
             .repeatedPassword("SomePass123!");
 
-    @Autowired
     public UserControllerTest(UserService userServiceMock) {
         this.userServiceMock = userServiceMock;
     }
