@@ -52,7 +52,7 @@ public class FAuthenticationProvider implements AuthenticationProvider, UserDeta
             default -> "ROLE_" + Role.USER.name();
         };
 
-        return new FAuthenticationToken(user.getId(), "", List.of(new SimpleGrantedAuthority(role)),user);
+        return new UsernamePasswordAuthenticationToken(user,"",List.of(new SimpleGrantedAuthority(role)));
     }
 
     @Override

@@ -1,16 +1,13 @@
 package com.barracuda.food.controller;
 
-import com.barracuda.food.auth.FAuthenticationToken;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.User;
-import org.springframework.security.authentication.ott.OneTimeTokenAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.security.Principal;
 
 @Controller
 public class ViewController {
@@ -46,12 +43,8 @@ public class ViewController {
     }
 
     @GetMapping("/profile")
-    String profilePage(Model model, Principal principal){
-        var user = switch (principal){
-            case OneTimeTokenAuthenticationToken o -> (User) o.getPrincipal();
-            case FAuthenticationToken f -> f.getUser();
-            default -> throw new IllegalStateException("Unknown principal "+principal);
-        };
+    String profilePage(Model model, Authentication authentication){
+        var user = (User) authentication.getPrincipal();
 
         model.addAttribute("nameForm",new UpdateNameForm(user.getName(),null));
         model.addAttribute("email",user.getEmail());

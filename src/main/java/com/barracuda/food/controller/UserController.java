@@ -1,14 +1,15 @@
 package com.barracuda.food.controller;
 
-import com.barracuda.food.auth.FAuthenticationToken;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.UserService;
-import com.barracuda.food.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.ott.OneTimeTokenAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -39,7 +40,6 @@ public class UserController {
 
     @PostMapping
     ModelAndView createUser(@Validated @ModelAttribute("form") UserRegistrationForm form, BindingResult bindingResult) {
-
         if(bindingResult.hasErrors()){
             return new ModelAndView("register");
         }
@@ -50,27 +50,34 @@ public class UserController {
     }
 
     @PostMapping("/name")
-    ModelAndView updateName(@ModelAttribute("nameForm") @Valid UpdateNameForm form,BindingResult bindingResult, Principal principal){
+    ModelAndView updateName(@ModelAttribute("nameForm") @Valid UpdateNameForm form, BindingResult bindingResult, Authentication authentication){
         if(bindingResult.hasErrors()){
             return new ModelAndView("profile");
         }
+        var userID = ((User) authentication.getPrincipal()).getId();
 
-        var authentication = (FAuthenticationToken) principal;
+        form.setId(userID);
+        var user = userService.changeUserName(form);
+
+        updateSecurityContext(user,authentication);
+
         var successMsg = new ArrayList<String>();
-        form.setId(authentication.getUser().getId());
-
-        updateSecurityContext(userService.changeUserName(form),authentication);
-
         successMsg.add(messageSource.getMessage("success.name.update.message",new Object[0], LocaleContextHolder.getLocale()));
 
         return new ModelAndView("profile",Map.of("success",successMsg));
     }
 
-    private void updateSecurityContext(User user,FAuthenticationToken authentication){
-        var newSecurityContext = SecurityContextHolder.createEmptyContext();
-        authentication.setUser(user);
-        newSecurityContext.setAuthentication(authentication);
-        SecurityContextHolder.setContext(newSecurityContext);
+    private void updateSecurityContext(User user,Authentication current){
+        var newContext = SecurityContextHolder.createEmptyContext();
+
+        var newAuthentication = switch (current){
+            case OneTimeTokenAuthenticationToken _ -> new OneTimeTokenAuthenticationToken(user,current.getAuthorities());
+            case UsernamePasswordAuthenticationToken _ -> new UsernamePasswordAuthenticationToken(user,"",current.getAuthorities());
+            default -> throw new IllegalStateException("Unknown authentication "+current);
+        };
+
+        newContext.setAuthentication(newAuthentication);
+        SecurityContextHolder.setContext(newContext);
     }
 
 }

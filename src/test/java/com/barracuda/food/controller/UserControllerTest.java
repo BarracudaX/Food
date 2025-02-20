@@ -1,13 +1,15 @@
 package com.barracuda.food.controller;
 
+import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
+import com.barracuda.food.infrastructure.WithFUser;
 import com.barracuda.food.service.UserService;
-import com.barracuda.food.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithSecurityContext;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,6 +30,8 @@ public class UserControllerTest extends AbstractControllerTest{
             .password("SomePass123!")
             .repeatedPassword("SomePass123!");
 
+    private final UpdateNameForm.UpdateNameFormBuilder updateNameFormBuilder = UpdateNameForm.builder().name("test").id(1L);
+
     public UserControllerTest(UserService userServiceMock) {
         this.userServiceMock = userServiceMock;
     }
@@ -35,7 +39,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @Test
     void shouldCreateNewUserAndRedirectToLoginPage() throws Exception {
         var form = builder.build();
-        prepareFormData(form)
+        prepareCreateForm(form)
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("login"));
 
@@ -47,7 +51,7 @@ public class UserControllerTest extends AbstractControllerTest{
     void shouldReturnUserBackWithErrorWhenNameIsEmpty(String emptyName) throws Exception {
         var formWithEmptyName = builder.name(emptyName).build();
 
-        prepareFormData(formWithEmptyName)
+        prepareCreateForm(formWithEmptyName)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeHasFieldErrors("form","name"));
@@ -59,7 +63,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenEmailIsEmpty(String emptyEmail) throws Exception {
         var formWithEmptyEmail = builder.email(emptyEmail).build();
-        prepareFormData(formWithEmptyEmail)
+        prepareCreateForm(formWithEmptyEmail)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeHasFieldErrors("form","email"));
@@ -71,7 +75,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenEmailIsInvalid(String invalidEmail) throws Exception {
         var formWithInvalidEmail = builder.email(invalidEmail).build();
-        prepareFormData(formWithInvalidEmail)
+        prepareCreateForm(formWithInvalidEmail)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeHasFieldErrors("form","email"));
@@ -83,7 +87,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenPasswordIsEmpty(String emptyPassword) throws Exception {
         var formWithEmptyPassword = builder.password(emptyPassword).repeatedPassword(emptyPassword).build();
-        prepareFormData(formWithEmptyPassword)
+        prepareCreateForm(formWithEmptyPassword)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeHasFieldErrors("form","password"));
@@ -96,7 +100,7 @@ public class UserControllerTest extends AbstractControllerTest{
     void shouldReturnUserBackWithErrorWhenPasswordIsInvalid(String invalidPassword) throws Exception {
         var formWithInvalidPassword = builder.password(invalidPassword).repeatedPassword(invalidPassword).build();
 
-        prepareFormData(formWithInvalidPassword)
+        prepareCreateForm(formWithInvalidPassword)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeHasFieldErrors("form","password"));
@@ -108,7 +112,7 @@ public class UserControllerTest extends AbstractControllerTest{
     void shouldReturnUserBackWithErrorWhenTwoPasswordsDoNotMatch() throws Exception {
         var formWithTwoNonMatchingPasswords = builder.repeatedPassword("DiffPass123!").build();
 
-        prepareFormData(formWithTwoNonMatchingPasswords)
+        prepareCreateForm(formWithTwoNonMatchingPasswords)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeHasErrors("form"));
@@ -116,13 +120,48 @@ public class UserControllerTest extends AbstractControllerTest{
         verifyNoInteractions(userServiceMock);
     }
 
-    private ResultActions prepareFormData(UserRegistrationForm form) throws Exception {
+    @WithFUser
+    @Test
+    void shouldUpdateUserNameAndReturnToProfile() throws Exception {
+        var form = updateNameFormBuilder.build();
+
+        prepareNameUpdateForm(form)
+                .andExpect(status().isOk())
+                .andExpect(view().name("profile"))
+                .andExpect(model().attributeExists("success"));
+
+        verify(userServiceMock).changeUserName(form);
+    }
+
+    @MethodSource("emptyStrings")
+    @ParameterizedTest
+    @WithFUser
+    void shouldReturnUserBackWithErrorWhenUpdatingNameWithEmptyString(String emptyString) throws Exception {
+        var form = updateNameFormBuilder.name(emptyString).build();
+
+        prepareNameUpdateForm(form)
+                .andExpect(status().isOk())
+                .andExpect(view().name("profile"))
+                .andExpect(model().attributeHasFieldErrors("nameForm","name"));
+
+        verifyNoInteractions(userServiceMock);
+    }
+
+    private ResultActions prepareCreateForm(UserRegistrationForm form) throws Exception {
         return mockMvc.perform(post("/user")
                 .with(csrf())
                 .param("name",form.getName())
                 .param("email",form.getEmail())
                 .param("password",form.getPassword())
                 .param("repeatedPassword",form.getRepeatedPassword())
+        );
+    }
+
+    private ResultActions prepareNameUpdateForm(UpdateNameForm updateNameForm) throws Exception {
+        return mockMvc.perform(post("/user/name")
+                .with(csrf())
+                .param("name",updateNameForm.getName())
+                .param("id",updateNameForm.getId().toString())
         );
     }
 }
