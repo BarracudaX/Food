@@ -46,8 +46,16 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+Role.USER.name()));
+    public final Collection<? extends GrantedAuthority> getAuthorities() {
+        var role = switch (this){
+            case Admin _ -> "ROLE_"+Role.ADMIN.name();
+            case Owner _ -> "ROLE_"+Role.OWNER.name();
+            case Manager _ -> "ROLE_"+Role.MANAGER.name();
+            case Staff _ -> "ROLE_"+Role.STAFF.name();
+            default -> "ROLE_"+Role.USER.name();
+        };
+
+        return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override
