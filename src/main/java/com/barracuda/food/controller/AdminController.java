@@ -7,7 +7,6 @@ import com.barracuda.food.dto.OwnerCreationForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.AdminService;
 import com.barracuda.food.service.UserService;
-import com.barracuda.food.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -22,7 +21,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/admin")

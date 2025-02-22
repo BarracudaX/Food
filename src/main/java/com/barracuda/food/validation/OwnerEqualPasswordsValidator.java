@@ -12,6 +12,9 @@ public class OwnerEqualPasswordsValidator implements ConstraintValidator<EqualPa
     public boolean isValid(OwnerCreationForm value, ConstraintValidatorContext context) {
         if(value == null) return true;
 
-        return (value.getPassword() == null && value.getRepeatedPassword() == null) || value.getPassword().equals(value.getRepeatedPassword());
+        return switch (value.password()){
+            case null -> value.repeatedPassword() == null;
+            default -> value.password().equals(value.repeatedPassword());
+        };
     }
 }
