@@ -9,6 +9,9 @@ import com.barracuda.food.service.AdminService;
 import com.barracuda.food.service.UserService;
 import com.barracuda.food.service.UserServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +31,12 @@ public class AdminController {
 
     private final UserService userService;
     private final AdminService adminService;
+    private final MessageSource messageSource;
 
-    public AdminController(UserService userService, AdminService adminService) {
+    public AdminController(UserService userService, AdminService adminService, MessageSource messageSource) {
         this.userService = userService;
         this.adminService = adminService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping("/users")
@@ -43,7 +48,7 @@ public class AdminController {
     }
 
     @PostMapping("/owner")
-    ResponseEntity<List<FormError>> createOwner(@RequestBody @Valid OwnerCreationForm form, BindingResult bindingResult){
+    ResponseEntity<Object> createOwner(@RequestBody @Valid OwnerCreationForm form, BindingResult bindingResult){
 
         var errors = bindingResult.getAllErrors().stream().map(error -> {
             FormError formError = switch (error) {
@@ -59,7 +64,17 @@ public class AdminController {
 
         adminService.createOwner(form);
 
-        return ResponseEntity.ok(Collections.emptyList());
+        var successMsg = messageSource.getMessage("owner.created.msg",new Object[]{}, LocaleContextHolder.getLocale());
+
+        return ResponseEntity.ok(successMsg);
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    ResponseEntity<List<FormError>> dataIntegrityViolationHandler(DataIntegrityViolationException ex){
+        var errorMsg = messageSource.getMessage("owner.duplicate.email",new Object[]{}, LocaleContextHolder.getLocale());
+        if(ex.getMessage().contains("USERS_UNIQUE_EMAIL")){
+            return ResponseEntity.badRequest().body(List.of(new GlobalFormError(errorMsg)));
+        }
+        throw ex;
+    }
 }

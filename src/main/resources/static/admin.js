@@ -27,6 +27,8 @@ async function createOwner(){
         if(response.status == 400){
             return badRequestHandler(await response.json())
         }
+
+        document.getElementById("success").appendChild(createSuccessElement(await response.text()));
     }catch(error){
         console.log(error.message);
     }
@@ -69,6 +71,23 @@ function createErrorElement(error){
     closeBtn.setAttribute("data-bs-dismiss","alert");
     closeBtn.setAttribute("aria-label","Close");
     textDiv.textContent = error.message;
+
+    alertDiv.appendChild(textDiv);
+    alertDiv.appendChild(closeBtn);
+
+    return alertDiv;
+}
+
+function createSuccessElement(msg){
+    const alertDiv = document.createElement("div");
+    const textDiv = document.createElement("div");
+    const closeBtn = document.createElement("button");
+
+    alertDiv.className = "alert alert-success alert-dismissible fade show mt-1 mb-1";
+    closeBtn.className = "btn-close";
+    closeBtn.setAttribute("data-bs-dismiss","alert");
+    closeBtn.setAttribute("aria-label","Close");
+    textDiv.textContent = msg;
 
     alertDiv.appendChild(textDiv);
     alertDiv.appendChild(closeBtn);
