@@ -19,10 +19,10 @@ public class UserServiceUnitTest extends AbstractServiceUnitTest {
 
     private final UserRegistrationForm form = new UserRegistrationForm("SOME_NAME","SOME@EMAIL.COM","SomePass123!","SomePass123!");
     private final User user = new User(1L, form.name(), form.email(),"ENCODED_PASSWORD");
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final UpdateNameForm updateForm = new UpdateNameForm("NewName",user.getId());
 
-    public UserServiceUnitTest(UserServiceImpl userService) {
+    public UserServiceUnitTest(UserService userService) {
         this.userService = userService;
     }
 
