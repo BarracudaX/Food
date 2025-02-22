@@ -17,10 +17,10 @@ import static org.mockito.Mockito.*;
 @ServiceTest
 public class UserServiceUnitTest extends AbstractServiceUnitTest {
 
-    private final UserRegistrationForm registrationForm = UserRegistrationForm.builder().name("SOME_NAME").email("SOME@EMAIL.COM").password("SomePass123").repeatedPassword("SomePass123").build();
-    private final User user = new User(1L,registrationForm.getName(),registrationForm.getEmail(),"ENCODED_PASSWORD");
+    private final UserRegistrationForm form = new UserRegistrationForm("SOME_NAME","SOME@EMAIL.COM","SomePass123!","SomePass123!");
+    private final User user = new User(1L, form.name(), form.email(),"ENCODED_PASSWORD");
     private final UserServiceImpl userService;
-    private final UpdateNameForm form = new UpdateNameForm("NewName",user.getId());
+    private final UpdateNameForm updateForm = new UpdateNameForm("NewName",user.getId());
 
     public UserServiceUnitTest(UserServiceImpl userService) {
         this.userService = userService;
@@ -28,7 +28,7 @@ public class UserServiceUnitTest extends AbstractServiceUnitTest {
 
     @BeforeEach
     void setUp() {
-        when(passwordEncoder.encode(registrationForm.getPassword())).thenReturn(user.getPassword());
+        when(passwordEncoder.encode(form.password())).thenReturn(user.getPassword());
         when(userRepositoryMock.save(any())).thenReturn(user);
         when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
     }
@@ -36,26 +36,26 @@ public class UserServiceUnitTest extends AbstractServiceUnitTest {
     @Test
     void shouldCreateNewUser() {
         var savedUser = ArgumentCaptor.forClass(User.class);
-        assertThat(userService.createUser(registrationForm)).isSameAs(user);
+        assertThat(userService.createUser(form)).isSameAs(user);
 
-        verify(passwordEncoder).encode(registrationForm.getPassword());
+        verify(passwordEncoder).encode(form.password());
         verify(userRepositoryMock).save(savedUser.capture());
         assertThat(savedUser.getValue()).usingRecursiveComparison().ignoringFields("id").isEqualTo(user);
     }
 
     @Test
     void shouldUpdateUserName() {
-        assertThat(user.getName()).isNotEqualTo(form.getName());
+        assertThat(user.getName()).isNotEqualTo(updateForm.getName());
 
-        userService.changeUserName(form);
+        userService.changeUserName(updateForm);
 
-        assertThat(user.getName()).isEqualTo(form.getName());
+        assertThat(user.getName()).isEqualTo(updateForm.getName());
     }
 
     @Test
     void shouldThrowEmptyResultDataAccessExceptionWhenTryingToUpdateNonExistingUser() {
-        when(userRepositoryMock.findById(form.getId())).thenReturn(Optional.empty());
+        when(userRepositoryMock.findById(updateForm.getId())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> userService.changeUserName(form)).isInstanceOf(EmptyResultDataAccessException.class);
+        assertThatThrownBy(() -> userService.changeUserName(updateForm)).isInstanceOf(EmptyResultDataAccessException.class);
     }
 }

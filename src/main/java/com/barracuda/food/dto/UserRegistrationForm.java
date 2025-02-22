@@ -4,24 +4,20 @@ import com.barracuda.food.validation.EqualPasswords;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Builder;
-import lombok.Data;
 
-@EqualPasswords(message = "{User.EqualPasswords.message}")
-@Data
-@Builder
-public final class UserRegistrationForm {
+@EqualPasswords
+public record UserRegistrationForm(
 
-    @NotBlank(message = "{User.name.NotBlank.message}")
-    private String name;
+        @NotBlank(message = "{User.name.NotBlank.message}") String name,
+        @Email(message = "{User.email.Email.message}")
+        @NotBlank(message = "{User.email.Email.message}")
+        String email,
 
-    @Email(message = "{User.email.Email.message}")
-    @NotBlank(message = "{User.email.Email.message}")
-    private String email;
+        @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*]{8,}$", message = "{User.password.Pattern.message}")
+        @NotBlank(message = "{User.password.NotBlank.message}")
+        String password,
 
-    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*]{8,}$", message = "{User.password.Pattern.message}")
-    @NotBlank(message = "{User.password.NotBlank.message}")
-    private String password;
+        String repeatedPassword
+) {
 
-    private String repeatedPassword;
 }

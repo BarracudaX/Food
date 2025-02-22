@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
     }
 
     public User createUser(UserRegistrationForm registrationForm){
-        var user = new User(registrationForm.getName(),registrationForm.getEmail(),passwordEncoder.encode(registrationForm.getPassword()));
+        var user = new User(registrationForm.name(),registrationForm.email(),passwordEncoder.encode(registrationForm.password()));
 
         return userRepository.save(user);
     }

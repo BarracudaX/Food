@@ -38,7 +38,7 @@ public class ViewController {
 
     @GetMapping({"/register","/user"})
     String registerPage(Model model){
-        model.addAttribute("form",UserRegistrationForm.builder().build());
+        model.addAttribute("form", new UserRegistrationForm("","","",""));
         return "register";
     }
 
