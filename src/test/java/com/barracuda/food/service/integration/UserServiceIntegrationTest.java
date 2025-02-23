@@ -35,7 +35,7 @@ public class UserServiceIntegrationTest extends AbstractServiceIntegrationTest{
 
     @BeforeEach
     void setUp() {
-        userRepository.deleteAll();
+        cleanDB();
     }
 
     @Test

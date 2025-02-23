@@ -24,4 +24,8 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2" author="Kalaitsidis Arslan">
+        <addUniqueConstraint tableName="restaurants" columnNames="name,owner_id" constraintName="UNIQUE_NAME_PER_OWNER" />
+    </changeSet>
+
 </databaseChangeLog>

@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.hibernate.annotations.GeneratedColumn;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -22,4 +23,32 @@ public class Restaurant {
 
     private String name;
 
+    Restaurant(){ }
+
+    public Restaurant(Owner owner, String name) {
+        this.owner = owner;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Restaurant that = (Restaurant) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", owner=" + owner +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
