@@ -1,10 +1,9 @@
-package com.barracuda.food.service;
+package com.barracuda.food.service.integration;
 
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
-import com.barracuda.food.entity.User;
-import com.barracuda.food.entity.enums.Role;
 import com.barracuda.food.repository.UserRepository;
+import com.barracuda.food.service.UserService;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;

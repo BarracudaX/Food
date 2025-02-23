@@ -1,9 +1,8 @@
-package com.barracuda.food.service;
+package com.barracuda.food.service.integration;
 
 import com.barracuda.food.AbstractTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
 @Import(IntegrationTestConfiguration.class)
 @SpringBootTest

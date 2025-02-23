@@ -1,9 +1,10 @@
-package com.barracuda.food.service;
+package com.barracuda.food.service.unit;
 
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.infrastructure.ServiceTest;
+import com.barracuda.food.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

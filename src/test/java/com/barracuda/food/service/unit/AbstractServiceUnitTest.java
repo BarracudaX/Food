@@ -1,4 +1,4 @@
-package com.barracuda.food.service;
+package com.barracuda.food.service.unit;
 
 import com.barracuda.food.AbstractTest;
 import com.barracuda.food.infrastructure.ServiceTest;
