@@ -21,7 +21,6 @@ public class UserControllerTest extends AbstractControllerTest{
 
     private final UserService userServiceMock;
 
-
     private final UserRegistrationForm form = new UserRegistrationForm("SOME_NAME","some@email.com","SomePass123!", "SomePass123!");
 
     private final UpdateNameForm.UpdateNameFormBuilder updateNameFormBuilder = UpdateNameForm.builder().name("test").id(1L);
