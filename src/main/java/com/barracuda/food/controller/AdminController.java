@@ -13,6 +13,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,14 +48,7 @@ public class AdminController {
 
     @PostMapping("/owner")
     ResponseEntity<Object> createOwner(@RequestBody @Valid OwnerCreationForm form, BindingResult bindingResult){
-
-        var errors = bindingResult.getAllErrors().stream().map(error -> {
-            FormError formError = switch (error) {
-                case FieldError fieldError -> new FieldFormError(fieldError.getField(), fieldError.getDefaultMessage());
-                case ObjectError globalError -> new GlobalFormError(globalError.getDefaultMessage());
-            };
-            return formError;
-        }).toList();
+        var errors = WebUtils.toFormErrors(bindingResult);
 
         if(!errors.isEmpty()){
             return ResponseEntity.badRequest().body(errors);
@@ -71,7 +65,7 @@ public class AdminController {
     ResponseEntity<List<FormError>> dataIntegrityViolationHandler(DataIntegrityViolationException ex){
         var errorMsg = messageSource.getMessage("owner.duplicate.email",new Object[]{}, LocaleContextHolder.getLocale());
         if(ex.getMessage().contains("USERS_UNIQUE_EMAIL")){
-            return ResponseEntity.badRequest().body(List.of(new GlobalFormError(errorMsg)));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(List.of(new GlobalFormError(errorMsg)));
         }
         throw ex;
     }

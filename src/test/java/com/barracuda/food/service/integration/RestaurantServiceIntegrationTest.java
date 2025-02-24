@@ -50,8 +50,8 @@ public class RestaurantServiceIntegrationTest extends AbstractServiceIntegration
         var restaurants = restaurantRepository.findByOwnerId(owner.getId());
 
         assertions.assertThat(restaurants).hasSize(1);
-        assertions.assertThat(restaurants.getFirst().getName()).isEqualTo(form.name());
-        assertions.assertThat(restaurants.getFirst().getOwner().getId()).isEqualTo(form.ownerID());
+        assertions.assertThat(restaurants.getFirst().getName()).isEqualTo(form.getName());
+        assertions.assertThat(restaurants.getFirst().getOwner().getId()).isEqualTo(form.getOwnerID());
         assertions.assertAll();
     }
 

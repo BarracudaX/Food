@@ -53,12 +53,12 @@ public class UserController {
         if(bindingResult.hasErrors()){
             return new ModelAndView("profile");
         }
-        var userID = ((User) authentication.getPrincipal()).getId();
+        var userID = WebUtils.getUserID();
 
         form.setId(userID);
         var user = userService.changeUserName(form);
 
-        updateSecurityContext(user,authentication);
+        WebUtils.updateSecurityContext(user,authentication);
 
         var successMsg = new ArrayList<String>();
         successMsg.add(messageSource.getMessage("success.name.update.message",new Object[0], LocaleContextHolder.getLocale()));
@@ -66,17 +66,6 @@ public class UserController {
         return new ModelAndView("profile",Map.of("success",successMsg));
     }
 
-    private void updateSecurityContext(User user,Authentication current){
-        var newContext = SecurityContextHolder.createEmptyContext();
 
-        var newAuthentication = switch (current){
-            case OneTimeTokenAuthenticationToken _ -> new OneTimeTokenAuthenticationToken(user,current.getAuthorities());
-            case UsernamePasswordAuthenticationToken _ -> new UsernamePasswordAuthenticationToken(user,"",current.getAuthorities());
-            default -> throw new IllegalStateException("Unknown authentication "+current);
-        };
-
-        newContext.setAuthentication(newAuthentication);
-        SecurityContextHolder.setContext(newContext);
-    }
 
 }

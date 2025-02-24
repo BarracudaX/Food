@@ -23,8 +23,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant create(RestaurantCreateForm form) {
-        var owner = ownerRepository.getReferenceById(form.ownerID());
-        var restaurant = new Restaurant(owner,form.name());
+        var owner = ownerRepository.getReferenceById(form.getOwnerID());
+        var restaurant = new Restaurant(owner,form.getName());
 
         return restaurantRepository.save(restaurant);
     }

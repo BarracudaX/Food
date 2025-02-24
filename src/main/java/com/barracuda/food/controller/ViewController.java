@@ -1,5 +1,6 @@
 package com.barracuda.food.controller;
 
+import com.barracuda.food.dto.RestaurantCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.Restaurant;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ViewController {
+
+    public static final String RESTAURANT_COMMAND_OBJECT_NAME = "restaurant";
 
     private final RestaurantService restaurantService;
 
@@ -68,6 +71,13 @@ public class ViewController {
         model.addAttribute("page",page);
 
         return "restaurants";
+    }
+
+    @GetMapping("/createRestaurant")
+    String createRestaurantPage(Model model){
+        model.addAttribute(RESTAURANT_COMMAND_OBJECT_NAME, new RestaurantCreateForm());
+
+        return "create_restaurant";
     }
 
 }

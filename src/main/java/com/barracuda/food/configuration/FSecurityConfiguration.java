@@ -57,7 +57,7 @@ public class FSecurityConfiguration {
                             .requestMatchers(HttpMethod.POST,"/user","/ott/generate","/login/ott").permitAll()
                             .requestMatchers(HttpMethod.GET,"/profile").hasRole(Role.USER.name())
                             .requestMatchers(HttpMethod.POST,"/user/name").hasRole(Role.USER.name())
-                            .requestMatchers("/restaurants").hasRole(Role.OWNER.name())
+                            .requestMatchers("/restaurants","/restaurant","/createRestaurant").hasRole(Role.OWNER.name())
                             .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                             .requestMatchers(HttpMethod.GET,"/resources/**").permitAll()
                             .anyRequest().denyAll();
