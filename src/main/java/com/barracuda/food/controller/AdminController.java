@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class AdminController {
     }
 
     @PostMapping("/owner")
-    ModelAndView createOwner(@ModelAttribute("owner") @Valid OwnerCreateForm form, BindingResult bindingResult){
+    ModelAndView createOwner(@ModelAttribute("owner") @Valid OwnerCreateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return new ModelAndView("create_user");
         }
@@ -66,7 +67,8 @@ public class AdminController {
             throw ex;
         }
 
-        return new ModelAndView("create_user",Map.of("success",WebUtils.getMessage(messageSource,"owner.created.msg")));
+        redirectAttributes.addFlashAttribute("success",WebUtils.getMessage(messageSource,"owner.created.msg"));
+        return new ModelAndView("redirect:/admin/user/create");
     }
 
 }
