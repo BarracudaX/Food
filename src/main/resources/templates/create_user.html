@@ -21,7 +21,7 @@
 
     </div>
 
-    <form th:action="@{/admin/owner}" method="post" class="w-50 m-auto mt-3" th:object="${owner}" >
+    <form th:action="${#mvc.url('AC#createOwner').build()}" method="post" class="w-50 m-auto mt-3" th:object="${owner}" >
         <div th:if="${#fields.hasErrors('global')}">
             <div th:each="error : ${#fields.errors('global')}" class="alert alert-danger alert-dismissible fade show mt-1 mb-1">
                 <div th:text="${error}">Error</div>

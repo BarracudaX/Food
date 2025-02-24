@@ -24,7 +24,7 @@
 
   </div>
 
-  <form class="w-50 m-auto mt-5" th:action="@{/restaurant}" method="post" th:object="${restaurant}">
+  <form class="w-50 m-auto mt-5" th:action="${#mvc.url('RC#createRestaurant').build()}" method="post" th:object="${restaurant}">
     <label for="restaurantName" class="form-label" th:text="#{page.label.name}">Name:</label>
     <input type="text" class="form-control" id="restaurantName" aria-describedby="nameInvalidFeedback" th:field="*{name}" th:errorclass="is-invalid"/>
     <div class="invalid-feedback" id="nameInvalidFeedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >

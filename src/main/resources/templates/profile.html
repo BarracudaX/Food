@@ -15,7 +15,7 @@
 <div class="container-fluid mt-3">
   <div class="m-auto row w-50">
 
-    <form class="form-horizontal" th:action="@{/user/name}" th:object="${nameForm}" method="post">
+    <form class="form-horizontal" th:action="${#mvc.url('UC#updateName').build()}" th:object="${nameForm}" method="post">
       <div th:replace="~{index::success}">
 
       </div>

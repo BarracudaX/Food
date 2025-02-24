@@ -16,62 +16,9 @@
 
 </nav>
 
-<div class="offcanvas offcanvas-bottom h-75" id="createManagerForm">
-    <div class="offcanvas-header justify-content-center">
-        <h3 class="offcanvas-title">Create Owner</h3>
-    </div>
-    <div class="offcanvas-body container">
-        <div id="errors">
-
-        </div>
-
-        <div id="success">
-
-        </div>
-
-        <div class="mb-3">
-            <label for="name" class="form-label" th:text="#{page.label.name}">Name:</label>
-            <input type="text" class="form-control" id="ownerName" aria-describedby="nameInvalidFeedback"/>
-            <div class="invalid-feedback" id="nameInvalidFeedback">
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="email" class="form-label" th:text="#{page.label.email}">Email:</label>
-            <input type="email" class="form-control" id="ownerEmail" aria-describedby="emailInvalidFeedback"/>
-            <div class="invalid-feedback" id="emailInvalidFeedback">
-
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label" th:text="#{page.label.password}">Password:</label>
-            <input type="password" class="form-control" id="password" aria-describedby="passwordInvalidFeedback"
-                   autocomplete="new-password"/>
-            <div class="invalid-feedback" id="passwordInvalidFeedback">
-
-            </div>
-            <div id="passwordHelp" class="form-text" th:text="#{User.password.Pattern.message}">Password needs to be at
-                least 8 characters long; container at least one
-                digit; and contain at least one letter.
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="repeatedPassword" class="form-label"
-                   th:text="#{page.label.repeatedPassword}">Password(repeat):</label>
-            <input type="password" class="form-control" id="repeatedPassword" autocomplete="new-password"/>
-        </div>
-
-        <button class="btn btn-success w-100" th:text="#{page.button.create.owner}" onclick="createOwner()">Create Owner
-        </button>
-        <button type="reset" class="btn btn-danger w-100 mt-2" th:text="#{page.button.reset}" onclick="clearFormInputs()">Reset</button>
-
-    </div>
-</div>
-
 <div class="container-fluid mt-3  vh-100 d-flex flex-column">
     <div class="d-flex mb-3 mt-3 w-100">
-        <a class="btn btn-success" aria-controls="createManagerForm" th:href="@{/admin/user/create}"><i class="fa-solid fa-user-plus"></i></a>
+        <a class="btn btn-success" aria-controls="createManagerForm" th:href="${#mvc.url('AC#createUserForm').build()}"><i class="fa-solid fa-user-plus"></i></a>
     </div>
     <div th:each="user : ${page.content}" class="row w-100">
         <div class="row mb-3">
