@@ -1,6 +1,6 @@
 package com.barracuda.food.service.integration;
 
-import com.barracuda.food.dto.OwnerCreationForm;
+import com.barracuda.food.dto.OwnerCreateForm;
 import com.barracuda.food.entity.enums.Role;
 import com.barracuda.food.repository.UserRepository;
 import com.barracuda.food.service.AdminService;
@@ -24,7 +24,7 @@ public class AdminServiceIntegrationTest extends AbstractServiceIntegrationTest{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private final OwnerCreationForm form = new OwnerCreationForm("SOME_NAME","SomePass123!","SomePass123!","some@email.com");
+    private final OwnerCreateForm form = new OwnerCreateForm("SOME_NAME","SomePass123!","SomePass123!","some@email.com");
 
     @BeforeEach
     void setUp() {
@@ -34,14 +34,14 @@ public class AdminServiceIntegrationTest extends AbstractServiceIntegrationTest{
     @Test
     void shouldCreateNewOwner() {
         SoftAssertions assertions = new SoftAssertions();
-        assertThat(userRepository.findByEmail(form.email())).isEmpty();
+        assertThat(userRepository.findByEmail(form.getEmail())).isEmpty();
 
         adminService.createOwner(form);
-        var owner = userRepository.findByEmail(form.email()).get();
+        var owner = userRepository.findByEmail(form.getEmail()).get();
 
-        assertions.assertThat(owner.getName()).isEqualTo(form.name());
-        assertions.assertThat(owner.getEmail()).isEqualTo(form.email());
-        assertions.assertThat(owner.getPassword()).satisfies(password -> passwordEncoder.matches(form.password(),password));
+        assertions.assertThat(owner.getName()).isEqualTo(form.getName());
+        assertions.assertThat(owner.getEmail()).isEqualTo(form.getEmail());
+        assertions.assertThat(owner.getPassword()).satisfies(password -> passwordEncoder.matches(form.getPassword(),password));
         assertions.assertThat(owner.getAuthorities()).hasSize(1);
         assertions.assertThat(owner.getAuthorities().iterator().next()).isEqualTo(new SimpleGrantedAuthority("ROLE_"+ Role.OWNER.name()));
 

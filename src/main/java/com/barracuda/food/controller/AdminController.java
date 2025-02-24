@@ -1,9 +1,8 @@
 package com.barracuda.food.controller;
 
 import com.barracuda.food.dto.FormError;
-import com.barracuda.food.dto.FormError.FieldFormError;
 import com.barracuda.food.dto.FormError.GlobalFormError;
-import com.barracuda.food.dto.OwnerCreationForm;
+import com.barracuda.food.dto.OwnerCreateForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.AdminService;
 import com.barracuda.food.service.UserService;
@@ -18,11 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/admin")
 @RestController
@@ -46,27 +45,28 @@ public class AdminController {
         return new ModelAndView("users");
     }
 
+    @GetMapping("/user/create")
+    ModelAndView createUserForm(){
+        return new ModelAndView("create_user", Map.of("owner",new OwnerCreateForm()));
+    }
+
     @PostMapping("/owner")
-    ResponseEntity<Object> createOwner(@RequestBody @Valid OwnerCreationForm form, BindingResult bindingResult){
-        var errors = WebUtils.toFormErrors(bindingResult);
-
-        if(!errors.isEmpty()){
-            return ResponseEntity.badRequest().body(errors);
+    ModelAndView createOwner(@ModelAttribute("owner") @Valid OwnerCreateForm form, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("create_user");
         }
 
-        adminService.createOwner(form);
-
-        var successMsg = messageSource.getMessage("owner.created.msg",new Object[]{}, LocaleContextHolder.getLocale());
-
-        return ResponseEntity.ok(successMsg);
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    ResponseEntity<List<FormError>> dataIntegrityViolationHandler(DataIntegrityViolationException ex){
-        var errorMsg = messageSource.getMessage("owner.duplicate.email",new Object[]{}, LocaleContextHolder.getLocale());
-        if(ex.getMessage().contains("USERS_UNIQUE_EMAIL")){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(List.of(new GlobalFormError(errorMsg)));
+        try{
+            adminService.createOwner(form);
+        }catch (DataIntegrityViolationException ex){
+            if(ex.getMessage().contains("USERS_UNIQUE_EMAIL")){
+                bindingResult.addError(new FieldError("owner","email",WebUtils.getMessage(messageSource,"owner.duplicate.email")));
+                return new ModelAndView("create_user");
+            }
+            throw ex;
         }
-        throw ex;
+
+        return new ModelAndView("create_user",Map.of("success",WebUtils.getMessage(messageSource,"owner.created.msg")));
     }
+
 }

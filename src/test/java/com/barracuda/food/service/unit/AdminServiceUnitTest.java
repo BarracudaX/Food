@@ -1,6 +1,6 @@
 package com.barracuda.food.service.unit;
 
-import com.barracuda.food.dto.OwnerCreationForm;
+import com.barracuda.food.dto.OwnerCreateForm;
 import com.barracuda.food.entity.Owner;
 import com.barracuda.food.service.AdminService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +16,8 @@ import static org.mockito.Mockito.when;
  */
 public class AdminServiceUnitTest extends AbstractServiceUnitTest{
 
-    private final OwnerCreationForm form = new OwnerCreationForm("SOME_NAME","SOME_PASS","SOME_PASS","SOME_EMAIL");
-    private final Owner owner = new Owner(form.name(),form.email(),"ENCODED_PASSWORD");
+    private final OwnerCreateForm form = new OwnerCreateForm("SOME_NAME","SOME_PASS","SOME_PASS","SOME_EMAIL");
+    private final Owner owner = new Owner(form.getName(),form.getEmail(),"ENCODED_PASSWORD");
     private final AdminService adminService;
 
     public AdminServiceUnitTest(AdminService adminService) {
@@ -26,7 +26,7 @@ public class AdminServiceUnitTest extends AbstractServiceUnitTest{
 
     @BeforeEach
     void setUp() {
-        when(passwordEncoder.encode(form.password())).thenReturn(owner.getPassword());
+        when(passwordEncoder.encode(form.getPassword())).thenReturn(owner.getPassword());
         when(userRepositoryMock.save(owner)).thenReturn(owner);
     }
 
@@ -35,7 +35,7 @@ public class AdminServiceUnitTest extends AbstractServiceUnitTest{
             var savedOwner = ArgumentCaptor.forClass(Owner.class);
             adminService.createOwner(form);
 
-            verify(passwordEncoder).encode(form.password());
+            verify(passwordEncoder).encode(form.getPassword());
             verify(userRepositoryMock).save(savedOwner.capture());
             assertThat(savedOwner.getValue()).usingRecursiveComparison().isEqualTo(owner);
     }

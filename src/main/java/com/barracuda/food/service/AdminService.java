@@ -1,6 +1,6 @@
 package com.barracuda.food.service;
 
-import com.barracuda.food.dto.OwnerCreationForm;
+import com.barracuda.food.dto.OwnerCreateForm;
 import com.barracuda.food.entity.Owner;
 import com.barracuda.food.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,8 +19,8 @@ public class AdminService {
         this.userRepository = userRepository;
     }
 
-    public Owner createOwner(OwnerCreationForm form){
-        var owner = new Owner(form.name(),form.email(),passwordEncoder.encode(form.password()));
+    public Owner createOwner(OwnerCreateForm form){
+        var owner = new Owner(form.getName(),form.getEmail(),passwordEncoder.encode(form.getPassword()));
 
         return userRepository.save(owner);
     }

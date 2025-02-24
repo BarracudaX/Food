@@ -38,9 +38,7 @@ public class RestaurantController {
 
     @PostMapping
     ModelAndView createRestaurant(@ModelAttribute(RESTAURANT_COMMAND_OBJECT_NAME) @Validated RestaurantCreateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        var errors = WebUtils.toFormErrors(bindingResult);
-
-        if(!errors.isEmpty()){
+        if(bindingResult.hasErrors()){
             return new ModelAndView("create_restaurant");
         }
 
