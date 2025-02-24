@@ -32,7 +32,7 @@
                     <a class="nav-link" href="#" th:href="@{/register}">Sign Up</a>
                 </li>
                 <li sec:authorize="hasRole('OWNER')" class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/restaurants}">Restaurants</a>
+                    <a class="nav-link" href="#" th:href="@{/restaurant/all}">Restaurants</a>
                 </li>
                 <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Administration</a>

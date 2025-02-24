@@ -22,7 +22,7 @@
 
 <div class="container-fluid mt-3 vh-100 d-flex flex-column">
   <div class="d-flex mb-3 mt-3 w-100">
-    <a class="btn btn-success" th:href="@{/createRestaurant}" aria-controls="createManagerForm"><i class="fa-solid fa-plus"></i></a>
+    <a class="btn btn-success" th:href="@{/restaurant}" aria-controls="createManagerForm"><i class="fa-solid fa-plus"></i></a>
   </div>
   <div class="d-flex gap-3 flex-wrap">
     <div class="card w-25" th:each="restaurant : ${page.content}">

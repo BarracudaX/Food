@@ -19,11 +19,8 @@
 </nav>
 
 <div class="container-fluid">
-  <div id="errors">
 
-  </div>
-
-  <div id="success">
+  <div th:replace="~{index::success}">
 
   </div>
 
@@ -34,10 +31,6 @@
     </div>
     <button class="btn btn-success mt-2 w-100" th:text="#{page.button.create.restaurant}" type="submit">Create Restaurant</button>
   </form>
-
-</div>
-
-<div th:replace="~{index::success}">
 
 </div>
 

@@ -1,13 +1,9 @@
 package com.barracuda.food.controller;
 
-import com.barracuda.food.dto.RestaurantCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.dto.UserRegistrationForm;
-import com.barracuda.food.entity.Restaurant;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.RestaurantService;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ViewController {
-
-    public static final String RESTAURANT_COMMAND_OBJECT_NAME = "restaurant";
 
     private final RestaurantService restaurantService;
 
@@ -61,23 +55,6 @@ public class ViewController {
         model.addAttribute("nameForm",new UpdateNameForm(user.getName(),null));
         model.addAttribute("email",user.getEmail());
         return "profile";
-    }
-
-    @GetMapping("/restaurants")
-    String restaurantsPage(Pageable pageable, Authentication authentication, PagedResourcesAssembler<Restaurant> assembler,Model model){
-        var ownerID = ((User) authentication.getPrincipal()).getId();
-
-        var page = assembler.toModel(restaurantService.restaurants(pageable,ownerID));
-        model.addAttribute("page",page);
-
-        return "restaurants";
-    }
-
-    @GetMapping("/createRestaurant")
-    String createRestaurantPage(Model model){
-        model.addAttribute(RESTAURANT_COMMAND_OBJECT_NAME, new RestaurantCreateForm());
-
-        return "create_restaurant";
     }
 
 }
