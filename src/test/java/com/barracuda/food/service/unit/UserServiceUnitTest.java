@@ -1,7 +1,7 @@
 package com.barracuda.food.service.unit;
 
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
-import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.infrastructure.ServiceTest;
 import com.barracuda.food.service.UserService;
@@ -18,8 +18,8 @@ import static org.mockito.Mockito.*;
 @ServiceTest
 public class UserServiceUnitTest extends AbstractServiceUnitTest {
 
-    private final UserRegistrationForm form = new UserRegistrationForm("SOME_NAME","SOME@EMAIL.COM","SomePass123!","SomePass123!");
-    private final User user = new User(1L, form.name(), form.email(),"ENCODED_PASSWORD");
+    private final UserCreateForm form = new UserCreateForm("SOME_NAME","SomePass123!","SomePass123!","SOME@EMAIL.COM");
+    private final User user = new User(1L, form.getName(), form.getEmail(),"ENCODED_PASSWORD");
     private final UserService userService;
     private final UpdateNameForm updateForm = new UpdateNameForm("NewName",user.getId());
 
@@ -29,7 +29,7 @@ public class UserServiceUnitTest extends AbstractServiceUnitTest {
 
     @BeforeEach
     void setUp() {
-        when(passwordEncoder.encode(form.password())).thenReturn(user.getPassword());
+        when(passwordEncoder.encode(form.getPassword())).thenReturn(user.getPassword());
         when(userRepositoryMock.save(any())).thenReturn(user);
         when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
     }
@@ -39,7 +39,7 @@ public class UserServiceUnitTest extends AbstractServiceUnitTest {
         var savedUser = ArgumentCaptor.forClass(User.class);
         assertThat(userService.createUser(form)).isSameAs(user);
 
-        verify(passwordEncoder).encode(form.password());
+        verify(passwordEncoder).encode(form.getPassword());
         verify(userRepositoryMock).save(savedUser.capture());
         assertThat(savedUser.getValue()).usingRecursiveComparison().ignoringFields("id").isEqualTo(user);
     }

@@ -1,6 +1,6 @@
 package com.barracuda.food.service.integration;
 
-import com.barracuda.food.dto.OwnerCreateForm;
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.entity.enums.Role;
 import com.barracuda.food.repository.UserRepository;
 import com.barracuda.food.service.AdminService;
@@ -24,7 +24,7 @@ public class AdminServiceIntegrationTest extends AbstractServiceIntegrationTest{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private final OwnerCreateForm form = new OwnerCreateForm("SOME_NAME","SomePass123!","SomePass123!","some@email.com");
+    private final UserCreateForm form = new UserCreateForm("SOME_NAME","SomePass123!","SomePass123!","some@email.com");
 
     @BeforeEach
     void setUp() {

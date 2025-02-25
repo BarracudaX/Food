@@ -1,7 +1,7 @@
 package com.barracuda.food.controller;
 
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
-import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.infrastructure.WithFUser;
 import com.barracuda.food.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class UserControllerTest extends AbstractControllerTest{
 
     private final UserService userServiceMock;
 
-    private final UserRegistrationForm form = new UserRegistrationForm("SOME_NAME","some@email.com","SomePass123!", "SomePass123!");
+    private final UserCreateForm form = new UserCreateForm("SOME_NAME","SomePass123!", "SomePass123!","some@email.com");
 
     private final UpdateNameForm.UpdateNameFormBuilder updateNameFormBuilder = UpdateNameForm.builder().name("test").id(1L);
 
@@ -41,7 +41,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @MethodSource("emptyStrings")
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenNameIsEmpty(String emptyName) throws Exception {
-        var formWithEmptyName = new UserRegistrationForm(emptyName,form.email(),form.password(),form.repeatedPassword());
+        var formWithEmptyName = new UserCreateForm(emptyName,form.getPassword(),form.getRepeatedPassword(),form.getEmail());
 
         prepareCreateForm(formWithEmptyName)
                 .andExpect(status().isOk())
@@ -54,7 +54,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @MethodSource("emptyStrings")
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenEmailIsEmpty(String emptyEmail) throws Exception {
-        var formWithEmptyEmail = new UserRegistrationForm(form.name(),emptyEmail,form.password(),form.repeatedPassword());
+        var formWithEmptyEmail = new UserCreateForm(form.getName(),form.getPassword(),form.getRepeatedPassword(),emptyEmail);
         prepareCreateForm(formWithEmptyEmail)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
@@ -66,7 +66,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @MethodSource("invalidEmails")
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenEmailIsInvalid(String invalidEmail) throws Exception {
-        var formWithInvalidEmail = new UserRegistrationForm(form.name(),invalidEmail,form.password(),form.repeatedPassword());
+        var formWithInvalidEmail = new UserCreateForm(form.getName(),form.getPassword(),form.getRepeatedPassword(),invalidEmail);
         prepareCreateForm(formWithInvalidEmail)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
@@ -78,7 +78,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @MethodSource("emptyStrings")
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenPasswordIsEmpty(String emptyPassword) throws Exception {
-        var formWithEmptyPassword = new UserRegistrationForm(form.name(),form.email(),emptyPassword,emptyPassword);
+        var formWithEmptyPassword = new UserCreateForm(form.getName(),emptyPassword,emptyPassword,form.getEmail());
         prepareCreateForm(formWithEmptyPassword)
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
@@ -90,7 +90,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @MethodSource("invalidPasswords")
     @ParameterizedTest
     void shouldReturnUserBackWithErrorWhenPasswordIsInvalid(String invalidPassword) throws Exception {
-        var formWithInvalidPassword = new UserRegistrationForm(form.name(),form.email(),invalidPassword,invalidPassword);
+        var formWithInvalidPassword = new UserCreateForm(form.getName(),invalidPassword,invalidPassword,form.getEmail());
 
         prepareCreateForm(formWithInvalidPassword)
                 .andExpect(status().isOk())
@@ -102,7 +102,7 @@ public class UserControllerTest extends AbstractControllerTest{
 
     @Test
     void shouldReturnUserBackWithErrorWhenTwoPasswordsDoNotMatch() throws Exception {
-        var formWithTwoNonMatchingPasswords = new UserRegistrationForm(form.name(),form.email(),form.password(),form.password()+"Diff");
+        var formWithTwoNonMatchingPasswords = new UserCreateForm(form.getName(),form.getPassword(),form.getPassword()+"Diff",form.getEmail());
 
         prepareCreateForm(formWithTwoNonMatchingPasswords)
                 .andExpect(status().isOk())
@@ -139,13 +139,13 @@ public class UserControllerTest extends AbstractControllerTest{
         verifyNoInteractions(userServiceMock);
     }
 
-    private ResultActions prepareCreateForm(UserRegistrationForm form) throws Exception {
+    private ResultActions prepareCreateForm(UserCreateForm form) throws Exception {
         return mockMvc.perform(post("/user")
                 .with(csrf())
-                .param("name",form.name())
-                .param("email",form.email())
-                .param("password",form.password())
-                .param("repeatedPassword",form.repeatedPassword())
+                .param("name",form.getName())
+                .param("email",form.getEmail())
+                .param("password",form.getPassword())
+                .param("repeatedPassword",form.getRepeatedPassword())
         );
     }
 

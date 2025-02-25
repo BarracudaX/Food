@@ -1,7 +1,7 @@
 package com.barracuda.food.service.integration;
 
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
-import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.enums.Role;
 import com.barracuda.food.repository.UserRepository;
 import com.barracuda.food.service.UserService;
@@ -30,7 +30,7 @@ public class UserServiceIntegrationTest extends AbstractServiceIntegrationTest{
     @Autowired
     private EntityManager entityManager;
 
-    private final UserRegistrationForm createForm = new UserRegistrationForm("SomeName","some@email.com","SomePass123!","SomePass123!");
+    private final UserCreateForm createForm = new UserCreateForm("SomeName","SomePass123!","SomePass123!","some@email.com");
     private Pageable pageable = Pageable.ofSize(2);
 
     @BeforeEach
@@ -41,16 +41,16 @@ public class UserServiceIntegrationTest extends AbstractServiceIntegrationTest{
     @Test
     void shouldCreateNewUser() {
         var softAssertions = new SoftAssertions();
-        assertThat(userRepository.findByEmail(createForm.email())).isEmpty();
+        assertThat(userRepository.findByEmail(createForm.getEmail())).isEmpty();
 
         userService.createUser(createForm);
-        var user = userRepository.findByEmail(createForm.email()).get();
+        var user = userRepository.findByEmail(createForm.getEmail()).get();
 
-        softAssertions.assertThat(user.getName()).isEqualTo(createForm.name());
-        softAssertions.assertThat(user.getEmail()).isEqualTo(createForm.email());
-        softAssertions.assertThat(user.getUsername()).isEqualTo(createForm.email());
+        softAssertions.assertThat(user.getName()).isEqualTo(createForm.getName());
+        softAssertions.assertThat(user.getEmail()).isEqualTo(createForm.getEmail());
+        softAssertions.assertThat(user.getUsername()).isEqualTo(createForm.getEmail());
         softAssertions.assertThat(user.getId()).isNotNull();
-        softAssertions.assertThat(user.getPassword()).satisfies(password -> passwordEncoder.matches(createForm.password(),password));
+        softAssertions.assertThat(user.getPassword()).satisfies(password -> passwordEncoder.matches(createForm.getPassword(),password));
         softAssertions.assertThat(user.getAuthorities()).hasSize(1);
         softAssertions.assertThat(user.getAuthorities().iterator().next()).isEqualTo(new SimpleGrantedAuthority("ROLE_"+ Role.USER.name()));
 

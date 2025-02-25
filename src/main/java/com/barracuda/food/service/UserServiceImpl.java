@@ -1,7 +1,7 @@
 package com.barracuda.food.service;
 
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
-import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService{
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(UserRegistrationForm registrationForm){
-        var user = new User(registrationForm.name(),registrationForm.email(),passwordEncoder.encode(registrationForm.password()));
+    public User createUser(UserCreateForm registrationForm){
+        var user = new User(registrationForm.getName(),registrationForm.getEmail(),passwordEncoder.encode(registrationForm.getPassword()));
 
         return userRepository.save(user);
     }

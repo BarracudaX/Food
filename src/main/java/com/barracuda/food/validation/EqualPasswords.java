@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Constraint(validatedBy = {UserEqualPasswordsValidator.class, OwnerEqualPasswordsValidator.class})
+@Constraint(validatedBy = {UserEqualPasswordsValidator.class})
 public @interface EqualPasswords {
 
     String message() default "com.barracuda.food.validation.EqualPasswords.message";

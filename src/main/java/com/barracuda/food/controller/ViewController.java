@@ -1,7 +1,7 @@
 package com.barracuda.food.controller;
 
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
-import com.barracuda.food.dto.UserRegistrationForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.RestaurantService;
 import org.springframework.security.core.Authentication;
@@ -44,7 +44,7 @@ public class ViewController {
 
     @GetMapping({"/register","/user"})
     String registerPage(Model model){
-        model.addAttribute("form", new UserRegistrationForm("","","",""));
+        model.addAttribute("form", new UserCreateForm("","","",""));
         return "register";
     }
 

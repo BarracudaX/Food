@@ -1,6 +1,6 @@
 package com.barracuda.food.service.unit;
 
-import com.barracuda.food.dto.OwnerCreateForm;
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.entity.Owner;
 import com.barracuda.food.service.AdminService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
  */
 public class AdminServiceUnitTest extends AbstractServiceUnitTest{
 
-    private final OwnerCreateForm form = new OwnerCreateForm("SOME_NAME","SOME_PASS","SOME_PASS","SOME_EMAIL");
+    private final UserCreateForm form = new UserCreateForm("SOME_NAME","SOME_PASS","SOME_PASS","SOME_EMAIL");
     private final Owner owner = new Owner(form.getName(),form.getEmail(),"ENCODED_PASSWORD");
     private final AdminService adminService;
 

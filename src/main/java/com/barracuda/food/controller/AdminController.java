@@ -1,19 +1,14 @@
 package com.barracuda.food.controller;
 
-import com.barracuda.food.dto.FormError;
-import com.barracuda.food.dto.FormError.GlobalFormError;
-import com.barracuda.food.dto.OwnerCreateForm;
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.AdminService;
 import com.barracuda.food.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/admin")
@@ -48,11 +42,11 @@ public class AdminController {
 
     @GetMapping("/user/create")
     ModelAndView createUserForm(){
-        return new ModelAndView("create_user", Map.of("owner",new OwnerCreateForm()));
+        return new ModelAndView("create_user", Map.of("owner",new UserCreateForm()));
     }
 
     @PostMapping("/owner")
-    ModelAndView createOwner(@ModelAttribute("owner") @Valid OwnerCreateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    ModelAndView createOwner(@ModelAttribute("owner") @Valid UserCreateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             return new ModelAndView("create_user");
         }

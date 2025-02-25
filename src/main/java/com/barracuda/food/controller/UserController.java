@@ -1,16 +1,12 @@
 package com.barracuda.food.controller;
 
+import com.barracuda.food.dto.UserCreateForm;
 import com.barracuda.food.dto.UpdateNameForm;
-import com.barracuda.food.dto.UserRegistrationForm;
-import com.barracuda.food.entity.User;
 import com.barracuda.food.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.ott.OneTimeTokenAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -38,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping
-    ModelAndView createUser(@Validated @ModelAttribute("form") UserRegistrationForm form, BindingResult bindingResult) {
+    ModelAndView createUser(@Validated @ModelAttribute("form") UserCreateForm form, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return new ModelAndView("register");
         }
