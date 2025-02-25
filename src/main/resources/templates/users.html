@@ -16,46 +16,30 @@
 
 </nav>
 
-<div class="container-fluid mt-3  vh-100 d-flex flex-column">
+<div class="container-fluid mt-3 vh-100 d-flex flex-column">
     <div class="d-flex mb-3 mt-3 w-100">
         <a class="btn btn-success" aria-controls="createManagerForm" th:href="${#mvc.url('AC#createUserForm').build()}"><i class="fa-solid fa-user-plus"></i></a>
     </div>
-    <div th:each="user : ${page.content}" class="row w-100">
-        <div class="row mb-3">
+    <div th:replace="~{pagination_display::pagination('row w-100',~{::user})}" >
+        <div class="row mb-3" th:fragment="user">
             <div class="row gx-2">
                 <label class="col-1 form-label m-0 align-content-center text-end" for="name">Name:</label>
                 <div class="col-3">
-                    <input class="form-control" value="Test" id="name" readonly th:value="${user.content.name}"/>
+                    <input class="form-control" value="Test" id="name" readonly th:value="${item.content.name}"/>
                 </div>
                 <label class="col-1 align-content-center text-end" for="email">Email:</label>
                 <div class="col-3">
-                    <input class="form-control" value="test@email.com" id="email" th:value="${user.content.email}"
+                    <input class="form-control" value="test@email.com" id="email" th:value="${item.content.email}"
                            readonly>
                 </div>
                 <label class="col-1 align-content-center text-end" for="role">Role:</label>
                 <div class="col-3">
-                    <input class="form-control" value="USER" id="role" th:value="${T(com.barracuda.food.Utility).userRole(user.content)}" readonly>
+                    <input class="form-control" value="USER" id="role" th:value="${T(com.barracuda.food.Utility).userRole(item.content)}" readonly>
                 </div>
             </div>
         </div>
     </div>
-    <nav class="row w-100 mt-auto mb-5" th:fragment="pagination">
-        <ul class="pagination justify-content-center gap-3">
-            <th:block th:if="${page.previousLink.isPresent()}">
-                <li class="page-item"><a class="page-link" href="#"
-                                         th:href="${page.previousLink.get().href}">Previous</a></li>
-            </th:block>
-            <th:block th:if="${page.previousLink.isEmpty()}">
-                <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
-            </th:block>
-            <th:block th:if="${page.nextLink.isPresent()}">
-                <li class="page-item"><a class="page-link" href="#" th:href="${page.nextLink.get().href}">Next</a></li>
-            </th:block>
-            <th:block th:if="${page.nextLink.isEmpty()}">
-                <li class="page-item"><a class="page-link disabled" href="#">Next</a></li>
-            </th:block>
-        </ul>
-    </nav>
+
 </div>
 
 
