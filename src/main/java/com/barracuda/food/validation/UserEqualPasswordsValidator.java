@@ -1,15 +1,15 @@
 package com.barracuda.food.validation;
 
-import com.barracuda.food.dto.UserCreateForm;
+import com.barracuda.food.dto.CreateUserForm;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserEqualPasswordsValidator implements ConstraintValidator<EqualPasswords, UserCreateForm> {
+public class UserEqualPasswordsValidator implements ConstraintValidator<EqualPasswords, CreateUserForm> {
 
     @Override
-    public boolean isValid(UserCreateForm value, ConstraintValidatorContext context) {
+    public boolean isValid(CreateUserForm value, ConstraintValidatorContext context) {
         if(value == null) return true;
 
         return switch (value.getPassword()){

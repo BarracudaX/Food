@@ -1,6 +1,6 @@
 package com.barracuda.food.service.unit;
 
-import com.barracuda.food.dto.UserCreateForm;
+import com.barracuda.food.dto.CreateUserForm;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.infrastructure.ServiceTest;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 @ServiceTest
 public class UserServiceUnitTest extends AbstractServiceUnitTest {
 
-    private final UserCreateForm form = new UserCreateForm("SOME_NAME","SomePass123!","SomePass123!","SOME@EMAIL.COM");
+    private final CreateUserForm form = new CreateUserForm("SOME_NAME","SomePass123!","SomePass123!","SOME@EMAIL.COM");
     private final User user = new User(1L, form.getName(), form.getEmail(),"ENCODED_PASSWORD");
     private final UserService userService;
     private final UpdateNameForm updateForm = new UpdateNameForm("NewName",user.getId());

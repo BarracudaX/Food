@@ -8,7 +8,6 @@ import lombok.Getter;
 @Entity
 public class Branch {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "branches_sequence")
     private Long id;

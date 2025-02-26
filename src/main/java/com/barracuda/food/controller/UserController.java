@@ -1,6 +1,6 @@
 package com.barracuda.food.controller;
 
-import com.barracuda.food.dto.UserCreateForm;
+import com.barracuda.food.dto.CreateUserForm;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.service.UserService;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping
-    ModelAndView createUser(@Validated @ModelAttribute("form") UserCreateForm form, BindingResult bindingResult) {
+    ModelAndView createUser(@Validated @ModelAttribute("form") CreateUserForm form, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return new ModelAndView("register");
         }

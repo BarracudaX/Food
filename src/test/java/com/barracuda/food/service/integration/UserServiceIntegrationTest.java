@@ -1,6 +1,6 @@
 package com.barracuda.food.service.integration;
 
-import com.barracuda.food.dto.UserCreateForm;
+import com.barracuda.food.dto.CreateUserForm;
 import com.barracuda.food.dto.UpdateNameForm;
 import com.barracuda.food.entity.enums.Role;
 import com.barracuda.food.repository.UserRepository;
@@ -30,7 +30,7 @@ public class UserServiceIntegrationTest extends AbstractServiceIntegrationTest{
     @Autowired
     private EntityManager entityManager;
 
-    private final UserCreateForm createForm = new UserCreateForm("SomeName","SomePass123!","SomePass123!","some@email.com");
+    private final CreateUserForm createForm = new CreateUserForm("SomeName","SomePass123!","SomePass123!","some@email.com");
     private Pageable pageable = Pageable.ofSize(2);
 
     @BeforeEach

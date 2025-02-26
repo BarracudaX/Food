@@ -1,6 +1,6 @@
 package com.barracuda.food.controller;
 
-import com.barracuda.food.dto.UserCreateForm;
+import com.barracuda.food.dto.CreateUserForm;
 import com.barracuda.food.entity.User;
 import com.barracuda.food.service.AdminService;
 import com.barracuda.food.service.UserService;
@@ -42,13 +42,13 @@ public class AdminController {
 
     @GetMapping("/user/create")
     ModelAndView createUserForm(){
-        return new ModelAndView("create_user", Map.of("owner",new UserCreateForm()));
+        return new ModelAndView("create_owner", Map.of("owner",new CreateUserForm()));
     }
 
     @PostMapping("/owner")
-    ModelAndView createOwner(@ModelAttribute("owner") @Valid UserCreateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    ModelAndView createOwner(@ModelAttribute("owner") @Valid CreateUserForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
-            return new ModelAndView("create_user");
+            return new ModelAndView("create_owner");
         }
 
         try{
@@ -56,7 +56,7 @@ public class AdminController {
         }catch (DataIntegrityViolationException ex){
             if(ex.getMessage().contains("USERS_UNIQUE_EMAIL")){
                 bindingResult.addError(new FieldError("owner","email",WebUtils.getMessage(messageSource,"owner.duplicate.email")));
-                return new ModelAndView("create_user");
+                return new ModelAndView("create_owner");
             }
             throw ex;
         }

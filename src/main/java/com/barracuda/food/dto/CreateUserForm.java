@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Data
-public final class UserCreateForm {
+public final class CreateUserForm {
         @NotBlank(message = "{User.name.NotBlank.message}")
         private String name;
 
@@ -26,7 +26,7 @@ public final class UserCreateForm {
         @NotBlank(message = "{User.email.Email.message}")
         private String email;
 
-    public UserCreateForm(String name, String password, String repeatedPassword, String email) {
+    public CreateUserForm(String name, String password, String repeatedPassword, String email) {
         this.name = name;
         this.password = password;
         this.repeatedPassword = repeatedPassword;
